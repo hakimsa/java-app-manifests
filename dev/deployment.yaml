@@ -18,16 +18,13 @@ spec:
       containers:
         - name: java-app
           image: hakimsamouh/mgtapp:latest
-          env:
-            - name: DATABASE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-secret
-                  key: DATABASE_URL
+          envFrom:
+           - secretRef:
+               name: postgres-secret
 
           imagePullPolicy: Always
           ports:
-            - containerPort: 8080
+            - containerPort: 8087
           resources:
             requests:
               memory: "256Mi"
@@ -38,12 +35,12 @@ spec:
           readinessProbe:
             httpGet:
               path: /actuator/health
-              port: 8080
+              port: 8087
             initialDelaySeconds: 10
             periodSeconds: 5
           livenessProbe:
             httpGet:
               path: /actuator/health
-              port: 8080
+              port: 8087
             initialDelaySeconds: 30
             periodSeconds: 10
