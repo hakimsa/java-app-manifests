@@ -18,6 +18,13 @@ spec:
       containers:
         - name: java-app
           image: hakimsamouh/mgtapp:latest
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: DATABASE_URL
+
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
